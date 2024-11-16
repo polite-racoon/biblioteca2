@@ -1,3 +1,5 @@
+import java.util.ArrayList;
+
 public abstract class Usuario {
     private String run;
     private String nombreCompleto;
@@ -10,10 +12,13 @@ public abstract class Usuario {
         this.genero = genero;
     }
 
+    // getters
     public String getRun() { return run; }
     public String getNombreCompleto() { return nombreCompleto; }
     public char getGenero() { return genero; }
     public Prestamo getPrestamo() { return prestamo; }
+
+    // setters
     public void setPrestamo(Prestamo prestamo) { this.prestamo = prestamo; }
 
     @Override
@@ -53,5 +58,15 @@ public abstract class Usuario {
         }
 
         return dvIngresado == dvEsperado;
+    }
+    public static boolean existeUsuario(String run, ArrayList<Usuario> usuarios) {
+        boolean existe = false;
+        for (Usuario usuario : usuarios) {
+            if (usuario.run.equals(run)) {
+                existe = true;
+                break;
+            }
+        }
+        return existe;
     }
 }

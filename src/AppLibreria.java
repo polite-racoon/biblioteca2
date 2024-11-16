@@ -57,6 +57,7 @@ public class AppLibreria {
                                 System.out.print("Ingrese el RUN del usuario: ");
                                 String run = scanner.nextLine();
 
+                                //valida rut
                                 while(!Usuario.validarRun(run)) {
                                     System.out.println("Rut incorrecto");
                                     System.out.print("Ingrese el RUN del usuario o 0 para salir: ");
@@ -64,6 +65,11 @@ public class AppLibreria {
                                 }
                                 if (run.equals("0")) break;
 
+                                //verifica si el usuario existe
+                                if (Usuario.existeUsuario(run, usuarios)) {
+                                    System.out.println("El usuario ya existe.");
+                                    break;
+                                }
 
                                 System.out.print("Ingrese M o F según su género: ");
                                 char genero = scanner.next().charAt(0);

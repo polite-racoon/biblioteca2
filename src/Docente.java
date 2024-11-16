@@ -19,6 +19,6 @@ public class Docente extends Usuario {
         return super.toString() +
                 ", profesion='" + profesion + '\'' +
                 ", magister=" + magister +
-                ", doctor=" + doctor;
+                ", doctor=" + doctor + "}";
     }
 }
