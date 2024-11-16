@@ -11,13 +11,16 @@ public class AppLibreria {
         LocalDateTime now = LocalDateTime.now();
         System.out.println("Current Date and Time: " + dtf.format(now));
 
+        // Usuarios base
         final ArrayList<Usuario> usuarios = new ArrayList<Usuario>(
                 Arrays.asList(
-                        new Estudiante("150938414", "Pepito TV", 'M', "Teatro"),
-                        new Docente("137538792", "Cirilo Morochuca", 'M', "Ing Informatico", true, true)
+                        new Estudiante("12341234-1", "Pepito TV", 'M', "Teatro"),
+                        new Estudiante("5678567-8", "Cirilo Morrochuca", 'M', "Medicina"),
+                        new Docente("4321432-1", "Pepe Machuca", 'M', "Calculator Prompt Engineer", true, false)
                 )
         );
 
+        // Libros base
         ArrayList<Libro> libros = new ArrayList<Libro>(
                 Arrays.asList(
                         new Libro(1, "Libro A", "Autor A", 5),
@@ -28,9 +31,14 @@ public class AppLibreria {
                 )
         );
 
+        // Lista de préstamos
         ArrayList<Prestamo> prestamos = new ArrayList<>();
+
+        // Scanner para entrada de datos
         Scanner scanner = new Scanner(System.in);
-        int menuBiblioteca, menuUsuario, menuLibro;
+        int menuBiblioteca;
+        int menuUsuario;
+        int menuLibro;
 
         do {
             System.out.println("\nMenu");
@@ -40,10 +48,11 @@ public class AppLibreria {
             System.out.println("4. Menu Devolucion");
             System.out.println("5. Salir");
             System.out.print("Elige una opcion: ");
+
             menuBiblioteca = scanner.nextInt();
 
             switch (menuBiblioteca) {
-                case 1: // Menu Usuario
+                case 1: // Opciones de Usuario
                     do {
                         System.out.println("\nMenu Usuario");
                         System.out.println("1. Crear Usuario");
@@ -55,27 +64,22 @@ public class AppLibreria {
 
                         switch (menuUsuario) {
                             case 1: // Crear Usuario
-                                scanner.nextLine();
-                                System.out.print("Ingrese el nombre del usuario: ");
-                                String nombreCompleto = scanner.nextLine();
-
+                                scanner.nextLine(); // Consumir salto de línea
                                 System.out.print("Ingrese el RUN del usuario: ");
-                                String run = scanner.nextLine().replace(".", "").replace("-", "");
+                                String run = scanner.nextLine();
 
-                                //valida rut
-                                while(!Usuario.validarRun(run)) {
-                                    System.out.println("Rut incorrecto");
-                                    System.out.print("Ingrese el RUN del usuario o 0 para salir: ");
-                                    run = scanner.nextLine();
-                                }
-                                if (run.equals("0")) break;
-
-                                //verifica si el usuario existe
                                 if (Usuario.existeUsuario(run, usuarios)) {
-                                    System.out.println("El usuario ya existe.");
+                                    System.out.println("El RUN ya está registrado.");
                                     break;
                                 }
 
+                                if (!Usuario.validarRun(run)) {
+                                    System.out.println("El RUN ingresado no es válido.");
+                                    break;
+                                }
+
+                                System.out.print("Ingrese el nombre del usuario: ");
+                                String nombreCompleto = scanner.nextLine();
                                 System.out.print("Ingrese M o F según su género: ");
                                 char genero = scanner.next().charAt(0);
                                 scanner.nextLine();
@@ -125,7 +129,7 @@ public class AppLibreria {
                     } while (menuUsuario != 4);
                     break;
 
-                case 2: // Menu Libro
+                case 2: // Opciones de Libro
                     do {
                         System.out.println("\nMenu Libro");
                         System.out.println("1. Crear Libro");
@@ -176,41 +180,30 @@ public class AppLibreria {
                     } while (menuLibro != 4);
                     break;
 
-                case 3: // Registrar Prestamo
+                case 3: // Registrar Préstamo
                     System.out.print("Ingrese el ISBN del libro: ");
                     int isbnPrestamo = scanner.nextInt();
                     System.out.print("Ingrese el RUN del usuario: ");
-                    String runPrestamo = scanner.next().replace(".", "").replace("-", "");
+                    String runPrestamo = scanner.next();
+
                     try {
-                        Libro libro = libros.stream().filter(l -> l.getISBN() == isbnPrestamo).findFirst().orElse(null);
-                        Usuario usuario = usuarios.stream().filter(u -> u.getRun().equals(runPrestamo)).findFirst().orElse(null);
-                        if (libro != null && usuario != null) {
-                            Prestamo prestamo = new Prestamo(usuario, libro);
-                            prestamos.add(prestamo);
-                            System.out.println("Préstamo registrado con éxito: " + prestamo);
-                        } else {
-                            System.out.println("Usuario o libro no encontrado.");
-                        }
+                        Prestamo prestamo = Prestamo.ingresarPrestamo(isbnPrestamo, runPrestamo, libros, usuarios);
+                        prestamos.add(prestamo);
+                        System.out.println("Préstamo registrado con éxito.");
                     } catch (Exception e) {
                         System.out.println(e.getMessage());
                     }
                     break;
 
-                case 4: // Registrar Devolucion
+                case 4: // Registrar Devolución
                     System.out.print("Ingrese el ISBN del libro: ");
                     int isbnDevolucion = scanner.nextInt();
                     System.out.print("Ingrese el RUN del usuario: ");
                     String runDevolucion = scanner.next();
+
                     try {
-                        Prestamo prestamo = prestamos.stream()
-                                .filter(p -> p.getLibro().getISBN() == isbnDevolucion && p.getUsuario().getRun().equals(runDevolucion) && !p.isDevuelto())
-                                .findFirst().orElse(null);
-                        if (prestamo != null) {
-                            Devolucion devolucion = new Devolucion(prestamo);
-                            System.out.println("Devolución registrada: " + devolucion);
-                        } else {
-                            System.out.println("No se encontró el préstamo.");
-                        }
+                        Prestamo.ingresarDevolucion(isbnDevolucion, runDevolucion, prestamos);
+                        System.out.println("Devolución registrada con éxito.");
                     } catch (Exception e) {
                         System.out.println(e.getMessage());
                     }
@@ -224,5 +217,7 @@ public class AppLibreria {
                     System.out.println("Opción no válida.");
             }
         } while (menuBiblioteca != 5);
+
+        scanner.close();
     }
 }

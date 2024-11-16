@@ -21,14 +21,22 @@ public abstract class Usuario {
     // setters
     public void setPrestamo(Prestamo prestamo) { this.prestamo = prestamo; }
 
-    // static methods
+    @Override
+    public String toString() {
+        return "Usuario{" +
+                "run='" + run + '\'' +
+                ", nombreCompleto='" + nombreCompleto + '\'' +
+                ", genero=" + genero;
+    }
+
     public static boolean validarRun(String run) {
-        //separar número y digito verificador
+        run = run.replace(".", "").replace("-", "");
+
         String numero = run.substring(0, run.length() - 1);
         char dvIngresado = run.charAt(run.length() - 1);
 
         char[] digitos = numero.toCharArray();
-        int[] secuencia = {2,3,4,5,6,7};
+        int[] secuencia = {2, 3, 4, 5, 6, 7};
 
         int suma = 0;
         int j = 0;
@@ -61,20 +69,5 @@ public abstract class Usuario {
             }
         }
         return existe;
-    }
-
-    @Override
-    public String toString() {
-        // Los run se almacenan sin puntos ni guion. Para mostrarlos le agregamos el guion
-        String runConGuion = run.substring(0, run.length()-1) + "-" +run.substring(run.length()-1);
-
-        // En préstamo mostramos solo el nombre del libro, para facilitar la lectura
-        String prestamo = (this.prestamo == null)? null : this.prestamo.getLibro().getTitulo();
-
-        return "Usuario{" +
-                "run='" + runConGuion + '\'' +
-                ", nombreCompleto='" + nombreCompleto + '\'' +
-                ", genero=" + genero +
-                ", préstamo=" + prestamo;
     }
 }
