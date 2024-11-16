@@ -11,7 +11,12 @@ public class AppLibreria {
         LocalDateTime now = LocalDateTime.now();
         System.out.println("Current Date and Time: " + dtf.format(now));
 
-        final ArrayList<Usuario> usuarios = new ArrayList<Usuario>();
+        final ArrayList<Usuario> usuarios = new ArrayList<Usuario>(
+                Arrays.asList(
+                        new Estudiante("150938414", "Pepito TV", 'M', "Teatro"),
+                        new Docente("137538792", "Cirilo Morochuca", 'M', "Ing Informatico", true, true)
+                )
+        );
 
         ArrayList<Libro> libros = new ArrayList<Libro>(
                 Arrays.asList(
@@ -55,7 +60,7 @@ public class AppLibreria {
                                 String nombreCompleto = scanner.nextLine();
 
                                 System.out.print("Ingrese el RUN del usuario: ");
-                                String run = scanner.nextLine();
+                                String run = scanner.nextLine().replace(".", "").replace("-", "");
 
                                 //valida rut
                                 while(!Usuario.validarRun(run)) {
@@ -175,7 +180,7 @@ public class AppLibreria {
                     System.out.print("Ingrese el ISBN del libro: ");
                     int isbnPrestamo = scanner.nextInt();
                     System.out.print("Ingrese el RUN del usuario: ");
-                    String runPrestamo = scanner.next();
+                    String runPrestamo = scanner.next().replace(".", "").replace("-", "");
                     try {
                         Libro libro = libros.stream().filter(l -> l.getISBN() == isbnPrestamo).findFirst().orElse(null);
                         Usuario usuario = usuarios.stream().filter(u -> u.getRun().equals(runPrestamo)).findFirst().orElse(null);
