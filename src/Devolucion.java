@@ -5,8 +5,12 @@ public class Devolucion {
     private GregorianCalendar fechaDevolucion;
 
     public Devolucion(Prestamo prestamo) {
+        if (prestamo.isDevuelto()) {
+            throw new IllegalStateException("El préstamo ya fue devuelto.");
+        }
         this.prestamo = prestamo;
         this.fechaDevolucion = new GregorianCalendar();
+        prestamo.devolver();
     }
 
     public Prestamo getPrestamo() { return prestamo; }
@@ -14,8 +18,9 @@ public class Devolucion {
 
     @Override
     public String toString() {
-        return "Devolucion realizada:\n" +
-                "Préstamo: " + prestamo.toString() + "\n" +
-                "Fecha de devolución: " + fechaDevolucion.getTime();
+        return "Devolucion{" +
+                "prestamo=" + prestamo +
+                ", fechaDevolucion=" + fechaDevolucion.getTime() +
+                '}';
     }
 }
