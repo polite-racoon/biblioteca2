@@ -11,6 +11,6 @@ public class Estudiante extends Usuario {
 
     @Override
     public String toString() {
-        return super.toString() + ", carrera='" + carrera + "'";
+        return super.toString() + ", carrera='" + carrera + "'}";
     }
 }

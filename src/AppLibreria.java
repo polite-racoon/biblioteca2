@@ -11,13 +11,7 @@ public class AppLibreria {
         LocalDateTime now = LocalDateTime.now();
         System.out.println("Current Date and Time: " + dtf.format(now));
 
-        final ArrayList<Usuario> usuarios = new ArrayList<Usuario>(
-                Arrays.asList(
-                        new Estudiante("12341234-1", "Pepito TV", 'M', "Teatro"),
-                        new Estudiante("5678567-8", "Cirilo Morrochuca", 'M', "Medicina"),
-                        new Docente("4321432-1", "Pepe Machuca", 'M', "Calculator Prompt Engineer", true, false)
-                )
-        );
+        final ArrayList<Usuario> usuarios = new ArrayList<Usuario>();
 
         ArrayList<Libro> libros = new ArrayList<Libro>(
                 Arrays.asList(
@@ -59,8 +53,18 @@ public class AppLibreria {
                                 scanner.nextLine();
                                 System.out.print("Ingrese el nombre del usuario: ");
                                 String nombreCompleto = scanner.nextLine();
+
                                 System.out.print("Ingrese el RUN del usuario: ");
                                 String run = scanner.nextLine();
+
+                                while(!Usuario.validarRun(run)) {
+                                    System.out.println("Rut incorrecto");
+                                    System.out.print("Ingrese el RUN del usuario o 0 para salir: ");
+                                    run = scanner.nextLine();
+                                }
+                                if (run.equals("0")) break;
+
+
                                 System.out.print("Ingrese M o F según su género: ");
                                 char genero = scanner.next().charAt(0);
                                 scanner.nextLine();
