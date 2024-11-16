@@ -35,8 +35,8 @@ public class Prestamo {
     @Override
     public String toString() {
         return "Prestamo{" +
-                "usuario=" + usuario.getRun() +
-                ", libro=" + libro.getTitulo() +
+                "ISBN=" + libro.getISBN() +
+                ", usuario=" + usuario.getRun() +
                 ", devuelto=" + devuelto +
                 '}';
     }
