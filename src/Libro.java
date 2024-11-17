@@ -4,13 +4,15 @@ public class Libro {
     private String autor;
     private int cantidadTotal;
     private int cantidadDisponible;
+    private String imagen;
 
-    public Libro(int ISBN, String titulo, String autor, int cantidadTotal) {
+    public Libro(int ISBN, String titulo, String autor, int cantidadTotal, String imagen) {
         this.ISBN = ISBN;
         this.titulo = titulo;
         this.autor = autor;
         this.cantidadTotal = cantidadTotal;
         this.cantidadDisponible = cantidadTotal;
+        this.imagen = imagen;
     }
 
     public int getISBN() { return ISBN; }
@@ -40,6 +42,7 @@ public class Libro {
                 ", titulo='" + titulo + '\'' +
                 ", autor='" + autor + '\'' +
                 ", cantidadDisponible=" + cantidadDisponible +
+                ", imagen='" + imagen + '\'' +
                 '}';
     }
 }

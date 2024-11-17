@@ -20,11 +20,11 @@ public class AppLibreria {
 
         ArrayList<Libro> libros = new ArrayList<Libro>(
                 Arrays.asList(
-                        new Libro(1, "Libro A", "Autor A", 5),
-                        new Libro(2, "Libro B", "Autor B", 3),
-                        new Libro(3, "Libro C", "Autor C", 4),
-                        new Libro(4, "Libro D", "Autor D", 6),
-                        new Libro(5, "Libro E", "Autor E", 2)
+                        new Libro(1, "Libro A", "Autor A", 5, "https://biblioteca/storage/1.webp"),
+                        new Libro(2, "Libro B", "Autor B", 3, "https://biblioteca/storage/2.webp"),
+                        new Libro(3, "Libro C", "Autor C", 4, "https://biblioteca/storage/3.webp"),
+                        new Libro(4, "Libro D", "Autor D", 6, "https://biblioteca/storage/4.webp"),
+                        new Libro(5, "Libro E", "Autor E", 2, "https://biblioteca/storage/5.webp")
                 )
         );
 
@@ -145,9 +145,11 @@ public class AppLibreria {
                                 String titulo = scanner.nextLine();
                                 System.out.print("Ingrese el autor del libro: ");
                                 String autor = scanner.nextLine();
+                                System.out.print("Ingrese la url de la imagen: ");
+                                String imagen = scanner.nextLine();
                                 System.out.print("Ingrese la cantidad total de ejemplares: ");
                                 int cantidadTotal = scanner.nextInt();
-                                libros.add(new Libro(isbn, titulo, autor, cantidadTotal));
+                                libros.add(new Libro(isbn, titulo, autor, cantidadTotal, imagen));
                                 System.out.println("Libro creado con éxito.");
                                 break;
 
