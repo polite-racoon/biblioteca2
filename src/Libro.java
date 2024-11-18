@@ -1,3 +1,5 @@
+import java.util.ArrayList;
+
 public class Libro {
     private int ISBN;
     private String titulo;
@@ -33,6 +35,14 @@ public class Libro {
         if (cantidadDisponible < cantidadTotal) {
             cantidadDisponible++;
         }
+    }
+
+    // verifica si el libro se encuentra prestado
+    public static boolean estaPrestado(int ISBNBorrar, ArrayList<Prestamo> prestamos) {
+        for (Prestamo prestamo : prestamos) {
+            if (prestamo.getLibro().getISBN() == ISBNBorrar) return true;
+        }
+            return false;
     }
 
     @Override

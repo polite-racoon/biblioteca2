@@ -167,7 +167,16 @@ public class AppLibreria {
                                 }
                                 System.out.print("Seleccione el número del libro a eliminar: ");
                                 int indiceLibro = scanner.nextInt();
+
                                 if (indiceLibro > 0 && indiceLibro <= libros.size()) {
+
+                                    //verifica que el libro no esté prestado
+                                    int ISBNBorrar = libros.get(indiceLibro - 1).getISBN();
+                                    if (Libro.estaPrestado(ISBNBorrar, prestamos)) {
+                                        System.out.println("No se puede eliminar debido a que hay ejemplares del libro en préstamo");
+                                        break;
+                                    }
+
                                     libros.remove(indiceLibro - 1);
                                     System.out.println("Libro eliminado con éxito.");
                                 } else {
@@ -187,9 +196,13 @@ public class AppLibreria {
                         Libro libro = libros.stream().filter(l -> l.getISBN() == isbnPrestamo).findFirst().orElse(null);
                         Usuario usuario = usuarios.stream().filter(u -> u.getRun().equals(runPrestamo)).findFirst().orElse(null);
                         if (libro != null && usuario != null) {
-                            Prestamo prestamo = new Prestamo(usuario, libro);
-                            prestamos.add(prestamo);
-                            System.out.println("Préstamo registrado con éxito: " + prestamo);
+                            if (libro.getCantidadDisponible() > 0) {
+                                Prestamo prestamo = new Prestamo(usuario, libro);
+                                prestamos.add(prestamo);
+                                System.out.println("Préstamo registrado con éxito: " + prestamo);
+                            } else {
+                                System.out.println("LIbro sin unidades disponibles");
+                            }
                         } else {
                             System.out.println("Usuario o libro no encontrado.");
                         }
